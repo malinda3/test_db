@@ -1,6 +1,11 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy.orm import sessionmaker, relationship, Session
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+
+DATABASE_URL = "postgresql://admin:password@db/dating_db"
+
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
@@ -35,3 +40,10 @@ class Goal(Base):
     __tablename__ = "goals"
     goal_id = Column(Integer, primary_key=True, index=True)
     goal = Column(String, unique=True)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
