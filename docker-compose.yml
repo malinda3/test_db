@@ -4,7 +4,7 @@ services:
   db:
     build:
       context: .
-      dockerfile: Dockerfile.db
+      dockerfile: db/Dockerfile.db
     container_name: postgres-dating-db
     ports:
       - "5432:5432"
@@ -14,7 +14,7 @@ services:
   web:
     build: 
       context: .
-      dockerfile: Dockerfile
+      dockerfile: app/Dockerfile
     container_name: fastapi-dating-app
     volumes:
       - .:/app
